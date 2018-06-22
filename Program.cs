@@ -8,19 +8,22 @@ namespace PSNoWindow
     {
         public static void Main(string[] args)
         {
+            PSDataCollection results;
+            
             using (PowerShell ps = PowerShell.Create())
             {
-
-                Collection<PSObject> results = ps.AddScript("Get-Process | Sort-Object WorkingSet | Select-Object ProcessName, WorkingSet").Invoke();
-                /*
-                for (int i = 0; i < results.Count; i++)
+                var script = @".\Get-AllTechnicians.ps1";
+                ps.AddScript(File.ReadAllText(script));
+                ps.AddParameter("User", "me");
+                IAsyncResult asyncres = ps.BeginInvoke();
+                do
                 {
-                    Console.WriteLine(results[i].Properties["ProcessName"]);
-                    Console.WriteLine(results[i].Properties["WorkingSet"]);
+                    //Wait
                 }
-                */
-                //Console.ReadKey();
-            }
+                while (!asyncres.IsCompleted);
+
+                results = ps.EndInvoke(asyncres);
+           }
         }
     }
 }
