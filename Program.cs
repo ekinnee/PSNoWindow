@@ -8,7 +8,7 @@ namespace PSNoWindow
     {
         public static void Main(string[] args)
         {
-            PSDataCollection results;
+            PSDataCollection<PSObject> results;
             
             using (PowerShell ps = PowerShell.Create())
             {
